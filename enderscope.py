@@ -768,6 +768,9 @@ class SerialDevice:
             code += "\n"
         self.serial.write(bytes(code, "utf-8"))
 
+    def write(self, code):
+        self.serial.write(bytes(code, "utf-8"))
+
 class Stage(SerialDevice):
     """
     This is the 3 axis stage that moves the sample
@@ -1193,6 +1196,20 @@ class Panel():
         self.grid = grid
         self.output = Output()
         display (grid, self.output)
+
+class Balance(SerialDevice):
+    """
+    An illumination device built from an Arduino board and a neopixels RGB leds ring
+    """
+
+    def __init__(self, port, baud_rate=9600, parity=serial.PARITY_NONE,
+                 stop_bits=serial.STOPBITS_ONE, byte_size=serial.EIGHTBITS):
+        super().__init__(port, baud_rate, parity, stop_bits, byte_size)
+        
+    def write(self, code, check_ok=True, debug=False):
+        super().write(code)
+        response = self.serial.read_until(b"\r\n",size=256)
+        return response
 
 class Enderlights(SerialDevice):
     """
