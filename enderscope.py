@@ -933,7 +933,7 @@ class Stage(SerialDevice):
         self.write_code(f'{G_CODES["set_speed_limit"]} {axis.upper()}{speed}',
                         debug=debug)
 
-    def move_absolute(self, x, y, z=None, debug=False):
+    def move_absolute(self, x, y, z=None, mm_per_sec=100, debug=False):
         """
         Moves the stage to the given coordinates
         :param x:
@@ -943,12 +943,12 @@ class Stage(SerialDevice):
         """
         self.set_absolute()
         if z is None:
-            code = f"G0 X {x} Y {y}"
+            code = f"G0 X {x} Y {y} F {mm_per_sec}"
         else:
-            code = f"G0 X {x} Y {y} Z {z}"
+            code = f"G0 X {x} Y {y} Z {z} F {mm_per_sec}"
         self.write_code(code, debug=debug)
 
-    def move_position(self, p, debug=False):
+    def move_position(self, p, mm_per_sec=100, debug=False):
         """
         Moves the stage to the given position
         :param p: position
@@ -958,13 +958,13 @@ class Stage(SerialDevice):
             self.set_absolute()
             if len(p)<3 :
                 x,y = p
-                code = f"G0 X {x} Y {y}"
+                code = f"G0 X {x} Y {y} F {mm_per_sec}"
             else:
                 x,y,z = p
-                code = f"G0 X {x} Y {y} Z {z}"
+                code = f"G0 X {x} Y {y} Z {z} F {mm_per_sec}"
             self.write_code(code, debug=debug)
             
-    def move_relative(self, x, y, z=None, debug=False):
+    def move_relative(self, x, y, z=None, mm_per_sec=100, debug=False):
         """
         Moves the stage by given mm distance
         :param x:
@@ -974,9 +974,9 @@ class Stage(SerialDevice):
         """
         self.set_relative(debug=debug)
         if z is None:
-            code = f"G0 X {x} Y {y}"
+            code = f"G0 X {x} Y {y} F {mm_per_sec}"
         else:
-            code = f"G0 X {x} Y {y} Z {z}"
+            code = f"G0 X {x} Y {y} Z {z} F {mm_per_sec}"
         if debug:
             print(code)
         self.write_code(code, debug=debug)
@@ -1196,20 +1196,6 @@ class Panel():
         self.grid = grid
         self.output = Output()
         display (grid, self.output)
-
-class Balance(SerialDevice):
-    """
-    An illumination device built from an Arduino board and a neopixels RGB leds ring
-    """
-
-    def __init__(self, port, baud_rate=9600, parity=serial.PARITY_NONE,
-                 stop_bits=serial.STOPBITS_ONE, byte_size=serial.EIGHTBITS):
-        super().__init__(port, baud_rate, parity, stop_bits, byte_size)
-        
-    def write(self, code, check_ok=True, debug=False):
-        super().write(code)
-        response = self.serial.read_until(b"\r\n",size=256)
-        return response
 
 class Enderlights(SerialDevice):
     """
