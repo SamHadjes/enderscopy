@@ -18,8 +18,8 @@ Create an 'enderscope' virtual environment to work in:
 
 ```
 cd ~
-python3 -m venv --system-site-packages enderscope
-source enderscope/bin/activate
+python3 -m venv --system-site-packages enderscope_venv
+source enderscope_venv/bin/activate
 pip install git+https://github.com/mutterer/enderscopy.git
 jupyter lab
 ```

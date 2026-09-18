@@ -27,3 +27,6 @@ dist/
 
 # Docs
 docs/_build
+
+# Venv
+enderscope_venv
