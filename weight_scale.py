@@ -12,7 +12,7 @@ class WeightScale(SerialDevice):
         super().__init__(port, baud_rate, parity, stop_bits, byte_size)
         
     def write(self, code, check_response=True):
-        super.flush_serial_buffer()
+        super().flush_serial_buffer()
         super().write(code)
         response = None
         if check_response:
@@ -38,14 +38,14 @@ class WeightScale(SerialDevice):
                 break
 
     def _parse(self, response: bytes):
-        if(len(response) > 0):
+        if len(response) > 0:
             try:
                 decoded = response.decode("ascii")
                 decoded = float(decoded.split()[0])
                 return decoded
-            except UnicodeDecodeError:
-                print("Error while decoding scale answer")
+            except (UnicodeDecodeError, ValueError, IndexError):
+                print("Error while decoding scale answer:", response)
                 return None
-        else :
+        else:
             print("Empty answer from scale")
             return None
