@@ -15,6 +15,7 @@ from .lights import Enderlights
 from .scan_patterns import ScanPatterns
 from .discovery import autoconnect
 from .weight_scale import WeightScale
+from .magnetometer import Magnetometer, MagnetometerLogger
 
 __all__ = [
     "G_CODES",
@@ -28,4 +29,6 @@ __all__ = [
     "ScanPatterns",
     "autoconnect",
     "WeightScale",
+    "Magnetometer",
+    "MagnetometerLogger",
 ]
