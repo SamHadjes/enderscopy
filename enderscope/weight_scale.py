@@ -40,7 +40,7 @@ class WeightScale(SerialDevice):
                 break
 
     def _parse(self, response: bytes):
-        if(len(response) > 0):
+        if len(response) > 0 :
             try:
                 sign = 1
                 decoded = response.decode("ascii")
@@ -49,9 +49,9 @@ class WeightScale(SerialDevice):
                     sign = -1
                 decoded = sign * float(decoded.split()[0])
                 return decoded
-            except UnicodeDecodeError:
-                print("Error while decoding scale answer")
+            except (UnicodeDecodeError, ValueError, IndexError):
+                print("Error while decoding scale answer:", response)
                 return None
-        else :
+        else:
             print("Empty answer from scale")
             return None
