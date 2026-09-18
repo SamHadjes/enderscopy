@@ -14,6 +14,7 @@ from .panel import Panel
 from .lights import Enderlights
 from .scan_patterns import ScanPatterns
 from .discovery import autoconnect
+from .weight_scale import WeightScale
 
 __all__ = [
     "G_CODES",
@@ -26,4 +27,5 @@ __all__ = [
     "Enderlights",
     "ScanPatterns",
     "autoconnect",
+    "WeightScale",
 ]
