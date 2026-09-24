@@ -10,8 +10,10 @@ class WeightScale(SerialDevice):
     """
 
     def __init__(self, port, baud_rate=9600, parity=serial.PARITY_NONE,
-                 stop_bits=serial.STOPBITS_ONE, byte_size=serial.EIGHTBITS):
+                 stop_bits=serial.STOPBITS_ONE, byte_size=serial.EIGHTBITS,
+                 timeout=2.5):
         super().__init__(port, baud_rate, parity, stop_bits, byte_size)
+        self.serial.timeout = timeout
         
     def write(self, code, check_response=True):
         super().flush_serial_buffer()
