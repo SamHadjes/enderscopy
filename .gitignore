@@ -29,4 +29,5 @@ dist/
 docs/_build
 
 # Venv
-enderscope_venv
+enderscope_venv*_mesure_combinee/
+*_test_perforation_silicone/
